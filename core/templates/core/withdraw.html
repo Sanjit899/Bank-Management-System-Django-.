@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw Money</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f1f4f9;
+        }
+        .card {
+            border-radius: 15px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+        .nav-link {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/">MyBank</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a href="/dashboard/" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="/deposit/" class="nav-link">Deposit</a></li>
+                <li class="nav-item"><a href="/withdraw/" class="nav-link active">Withdraw</a></li>
+                <li class="nav-item"><a href="/transfer/" class="nav-link">Transfer</a></li>
+                <li class="nav-item"><a href="/logout/" class="nav-link">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card shadow p-4" style="width: 500px;">
+        <h3 class="text-center mb-4">Withdraw Funds</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Enter Amount</label>
+                <input 
+                    type="number" 
+                    name="amount" 
+                    class="form-control" 
+                    placeholder="Enter amount to withdraw" 
+                    required>
+            </div>
+
+            <button class="btn btn-primary">Withdraw</button>
+        </form>
+
+        {% if message %}
+        <div class="alert alert-info mt-3 text-center">{{ message }}</div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

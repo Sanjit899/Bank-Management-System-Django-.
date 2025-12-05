@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<style>
+  /* ---------------- DASHBOARD HEADER ---------------- */
+  h2 {
+    font-weight: 700;
+    color: #1a73e8;
+    margin-bottom: 20px;
+  }
+
+  .account-box {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    margin-bottom: 25px;
+  }
+
+  .account-box p {
+    font-size: 1.05rem;
+    margin: 5px 0;
+  }
+
+  /* ---------------- ACTION BUTTONS ---------------- */
+  .btn-success, .btn-warning, .btn-info {
+    border-radius: 20px;
+    padding: 7px 18px;
+    font-weight: 600;
+    margin-right: 5px;
+  }
+
+  .btn-success { background:#28a745; border:none; }
+  .btn-warning { background:#ffb300; border:none; color:#000; }
+  .btn-info { background:#17a2b8; border:none; }
+
+  .btn-success:hover { background:#218838; }
+  .btn-warning:hover { background:#ffa000; }
+  .btn-info:hover { background:#138496; }
+
+  /* ---------------- TRANSACTION TABLE ---------------- */
+  h4 {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  table.table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  }
+
+  table.table thead {
+    background: #1a73e8;
+    color: white;
+  }
+
+  table.table tbody tr:hover {
+    background: #f1f6ff;
+  }
+</style>
+
+<h2>Dashboard</h2>
+
+<div class="account-box">
+  <p><strong>User:</strong> {{ account.user.username }}</p>
+  <p><strong>Account Number:</strong> {{ account.account_number }}</p>
+  <p><strong>Balance:</strong> ₹{{ account.balance }}</p>
+
+  <div class="mt-3">
+    <a class="btn btn-success" href="{% url 'deposit' %}">Deposit</a>
+    <a class="btn btn-warning" href="{% url 'withdraw' %}">Withdraw</a>
+    <a class="btn btn-info" href="{% url 'transfer' %}">Transfer</a>
+  </div>
+</div>
+
+<h4>Recent Transactions</h4>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th>Counterparty</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in transactions %}
+      <tr>
+        <td>{{ t.timestamp }}</td>
+        <td>{{ t.get_txn_type_display }}</td>
+        <td>₹{{ t.amount }}</td>
+        <td>{{ t.counterparty|default:"-" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4" class="text-center py-3">No transactions yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
